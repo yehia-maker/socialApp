@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const user_service_1 = __importDefault(require("./user.service"));
+const auth_middleware_1 = require("../../Middlewares/auth.middleware");
+const validation_middleware_1 = require("../../Middlewares/validation.middleware");
+const user_validation_1 = require("./user.validation");
+const router = (0, express_1.Router)();
+router.put("", (0, auth_middleware_1.isAuthenticated)(), (0, validation_middleware_1.isValid)(user_validation_1.updateInfoSchema), user_service_1.default.updateInfo);
+router.patch("/update-old-password", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.updateOldPassword);
+router.post("/request-otp", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.requestOtp);
+router.post("/update-password", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.updatePassword);
+router.patch("/block/:blockedUserId", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.block);
+router.patch("/send-request/:reqId", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.sendRequest);
+router.patch("/accept-request/:acceptedId", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.acceptRequest);
+router.delete("/delete-request/:id", (0, auth_middleware_1.isAuthenticated)(), user_service_1.default.deleteFriendRequest);
+exports.default = router;
